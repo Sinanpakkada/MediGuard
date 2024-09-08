@@ -14,7 +14,7 @@ MediGuard Protocol proposes a robust solution: allow medical institutions to **s
 
 1. **Login and Select Services**: Medical institutions log in through a decentralized identity system, utilizing account abstraction to make the process seamless. The institution selects a prediction model or service to run, which could involve individual or combined datasets.
    
-2. **Data Encryption**: Medical data is entered locally through the UI. The data is **encrypted at the client side using the institution’s public address**. The encryption ensures that sensitive medical information is never exposed.
+2. **Data Encryption**: Medical data is entered locally through the UI. The data is **encrypted at the client side using the institution’s private key**. The encryption ensures that sensitive medical information is never exposed.
 
 3. **On-chain Model Computation**: The encrypted data is sent to the smart contract, where **Fhenix's Fully Homomorphic Encryption (FHE)** is used to perform secure computations on the encrypted data. The smart contract deploys computations to predict results on-chain.
 
@@ -36,7 +36,7 @@ Fhenix Protocol brings **Fully Homomorphic Encryption (FHE)** to smart contracts
 **Key Advantages of Fhenix:**
 - **Privacy-Preserving Computation**: Medical data is never revealed, even during model execution.
 - **On-chain Computation**: The smart contract performs all necessary computations, with no off-chain dependencies, making the process transparent and auditable.
-- **Seamless Encryption**: Public keys (addresses) are used as encryption keys, ensuring that medical entities can securely manage their own data without external key management complexities.
+- **Seamless Encryption**: Private keys (addresses) are used as encryption keys, ensuring that medical entities can securely manage their own data without external key management complexities.
 
 ## 🌍 Revolutionizing On-Chain ML with MediGuard
 
@@ -50,10 +50,10 @@ With APIs for future integrations, MediGuard aims to build an entire ecosystem a
 ## ⚙️ Tech Stack
 
 - **Smart Contract**: Solidity, Fhenix FHE Library
-- **Blockchain**: Ethereum
+- **Blockchain**: Fhenix Helium Testnet
 - **Frontend**: React, ethers.js, Web3 integration
-- **Encryption**: FHE for on-chain computation and AES for local encryption
-- **Deployment**: Web3 provider, Metamask, and Ethereum
+- **Encryption**: FHE for on-chain computation
+- **Deployment**: Fhenix Helium Testnet
 
 ## 👥 Contributing
 
@@ -65,7 +65,7 @@ We welcome contributions and collaborations, especially from those passionate ab
 - **API Integration**: Soon, MediGuard will offer APIs for seamless integration with other healthcare applications and platforms.
 - **Scalability**: Work towards improving the scalability of on-chain computation for more complex models.
 
-# Build at EthOnline Hackathon
+[Build at EthOnline Hackathon](https://ethglobal.com/showcase/mediguard-qy2us)
 
 ### Contact
 
