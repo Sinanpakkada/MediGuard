@@ -6,15 +6,25 @@ import FhenixContractABI from './FhenixContractABI.json'; // Import your contrac
 
 const App = () => {
   const [contract, setContract] = useState(null);
-  const [encryptionKey, setEncryptionKey] = useState('your-encryption-key');
+  const [encryptionKey, setEncryptionKey] = useState('your-encryption-key'); // Replace with your actual encryption key
+  const [provider, setProvider] = useState(null);
 
   useEffect(() => {
     const initializeContract = async () => {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contractAddress = '0xYourContractAddress'; // Replace with your contract address
-      const contract = new ethers.Contract(contractAddress, FhenixContractABI, signer);
-      setContract(contract);
+      if (window.ethereum) {
+        try {
+          const newProvider = new ethers.providers.Web3Provider(window.ethereum);
+          setProvider(newProvider);
+          const signer = newProvider.getSigner();
+          const contractAddress = '0x74D17ce811A57A7707a50AC67e6a0Be3db6bf4a0'; 
+          const newContract = new ethers.Contract(contractAddress, FhenixContractABI, signer);
+          setContract(newContract);
+        } catch (error) {
+          console.error('Failed to initialize contract:', error);
+        }
+      } else {
+        console.log('Ethereum provider not found');
+      }
     };
 
     initializeContract();

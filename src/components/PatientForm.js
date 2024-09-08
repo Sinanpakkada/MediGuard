@@ -1,9 +1,8 @@
-    // src/components/PatientForm.js
+// src/components/PatientForm.js
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import CryptoJS from 'crypto-js'; // Encryption for example, replace with FHE encryption method
 
-const PatientForm = ({ contract, encryptionKey }) => {
+const PatientForm = ({ contract }) => {
   const [age, setAge] = useState('');
   const [bmi, setBmi] = useState('');
   const [glucose, setGlucose] = useState('');
@@ -12,26 +11,21 @@ const PatientForm = ({ contract, encryptionKey }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Encrypt patient data
-    const encryptedAge = CryptoJS.AES.encrypt(age, encryptionKey).toString();
-    const encryptedBmi = CryptoJS.AES.encrypt(bmi, encryptionKey).toString();
-    const encryptedGlucose = CryptoJS.AES.encrypt(glucose, encryptionKey).toString();
-
     try {
+      // Convert inputs to BigNumber for compatibility with Solidity euint types
+      const ageBN = ethers.BigNumber.from(age);
+      const bmiBN = ethers.BigNumber.from(bmi);
+      const glucoseBN = ethers.BigNumber.from(glucose);
+
       // Send encrypted data to smart contract
-      const tx = await contract.predict(
-        ethers.utils.formatBytes32String(encryptedAge),
-        ethers.utils.formatBytes32String(encryptedBmi),
-        ethers.utils.formatBytes32String(encryptedGlucose)
-      );
+      const tx = await contract.predict(ageBN, bmiBN, glucoseBN);
       
       // Wait for the transaction receipt and get prediction result
       const receipt = await tx.wait();
       const prediction = receipt.events[0].args[0]; 
 
-      // Decrypt the result and display it
-      const decryptedPrediction = CryptoJS.AES.decrypt(prediction, encryptionKey).toString(CryptoJS.enc.Utf8);
-      setResult(decryptedPrediction);
+      // Convert prediction result to readable format
+      setResult(prediction.toString());
     } catch (error) {
       console.error(error);
     }
