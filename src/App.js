@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import PatientForm from './components/PatientForm';
+import FhenixContractABI from './FhenixContractABI.json'; // Import your contract ABI
 
-function App() {
+const App = () => {
+  const [contract, setContract] = useState(null);
+  const [encryptionKey, setEncryptionKey] = useState('your-encryption-key');
+
+  useEffect(() => {
+    const initializeContract = async () => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contractAddress = '0xYourContractAddress'; // Replace with your contract address
+      const contract = new ethers.Contract(contractAddress, FhenixContractABI, signer);
+      setContract(contract);
+    };
+
+    initializeContract();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Diabetes Prediction</h1>
+      {contract && <PatientForm contract={contract} encryptionKey={encryptionKey} />}
     </div>
   );
-}
+};
 
 export default App;
